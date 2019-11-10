@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(GeoTypeTableSeeder::class);
+        $this->call(GeoObjectTableSeeder::class);
+        $this->call(GeoFeatureTableSeeder::class);
     }
 }
