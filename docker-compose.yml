@@ -1,0 +1,60 @@
+version: "3.7"
+services:
+
+  geox:
+    build: ./docker/geox/build
+    environment:
+      - XDEBUG_CONFIG=remote_host=127.0.0.1
+      - PHP_IDE_CONFIG=serverName=docker.server
+    volumes:
+      - './:/var/www/html/geox'
+      - './docker/geox/php.ini:/usr/local/etc/php/php.ini'
+      - './docker/geox/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini'
+    working_dir: '/var/www/html/geox'
+    networks:
+      - backend
+    depends_on:
+      - mysql57
+    restart: always
+
+  nginx:
+    image: nginx:1.16.0-alpine
+    volumes:
+      - './:/var/www/html/geox'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+    ports:
+      - '80:80'
+    working_dir: '/var/www/html/geox'
+    networks:
+      - backend
+    depends_on:
+      - geox
+    restart: always
+
+  mysql57:
+    image: mysql:5.7.27
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - 'mysql57_data:/var/lib/mysql'
+    networks:
+      - backend
+    restart: always
+
+  adminer:
+    image: adminer
+    ports:
+      - '8060:8080'
+    networks:
+      - backend
+    restart: always
+
+volumes:
+  mysql57_data:
+
+networks:
+  backend:
