@@ -104,10 +104,17 @@ class GeoObjectService
         /** @var GeoObject $geoObject*/
         $geoObject = $this->get($geoObjectData['id']);
         if ($geoObject) {
-            DB::beginTransaction();
-            $geoObject->geoFeatures()->delete();
-            $geoObject->delete();
-            DB::commit();
+            if (array_key_exists('arhive', $geoObjectData)) {
+                // В архив
+                $geoObject->is_arhive = true;
+                $geoObject->save();
+            } else {
+                // Удалить
+                DB::beginTransaction();
+                $geoObject->geoFeatures()->delete();
+                $geoObject->delete();
+                DB::commit();
+            }
         }
 
         return $geoObject;

@@ -75,14 +75,17 @@ class GeoObjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param GeoObjectService $geoObjectService
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(GeoObjectService $geoObjectService, $id)
+    public function destroy(Request $request, GeoObjectService $geoObjectService, $id)
     {
+        $geoObjectData = $request->all();
         $geoObjectData['id'] = $id;
+        
         $result = $geoObjectService->delete($geoObjectData);
 
         return response()->json($result, 204);
