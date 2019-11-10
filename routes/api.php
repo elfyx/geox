@@ -17,4 +17,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1', 'as' => 'api.'], functi
 
     // Geo Objects
     Route::apiResource('geo-objects', 'GeoObjectController');
+    Route::get('geo-objects/{idGeoObject}/features', 'GeoObjectController@featuresList');
 });

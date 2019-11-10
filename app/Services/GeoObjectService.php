@@ -114,6 +114,22 @@ class GeoObjectService
     }
 
     /**
+     * Получить список геометрий для геообъекта
+     * @param int $idGeoObject
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function featuresList(int $idGeoObject)
+    {
+        /** @var GeoObject $geoObject*/
+        $geoObject = GeoObject::find($idGeoObject);
+
+        $features = $geoObject->geoFeatures()->orderBy('id', 'desc')->get();
+
+        return $features;
+    }
+
+    /**
      * Подготовить геометрию для записи в БД
      *
      * @param array $geoObjectData
