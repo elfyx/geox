@@ -26,9 +26,12 @@ class GeoObjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, GeoObjectService $geoObjectService)
     {
-        //
+        $geoObjectData = $request->all();
+        $result = $geoObjectService->add($geoObjectData);
+
+        return response()->json($result, 201);
     }
 
     /**
@@ -51,9 +54,14 @@ class GeoObjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, GeoObjectService $geoObjectService, $id)
     {
-        //
+        $geoObjectData = $request->all();
+        $geoObjectData['id'] = $id;
+
+        $result = $geoObjectService->update($geoObjectData);
+
+        return response()->json($result);
     }
 
     /**
@@ -62,8 +70,11 @@ class GeoObjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(GeoObjectService $geoObjectService, $id)
     {
-        //
+        $geoObjectData['id'] = $id;
+        $result = $geoObjectService->delete($geoObjectData);
+
+        return response()->json($result, 204);
     }
 }

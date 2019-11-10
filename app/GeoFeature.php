@@ -9,11 +9,13 @@ class GeoFeature extends Model
 {
     use SpatialTrait;
 
+    protected $fillable = ['geo_object_id','area','geom'];
+
     protected $spatialFields = [
         'geom',
     ];
 
-    /*
+    /**
      * Связь с геобъектом
      */
     public function geoObject()

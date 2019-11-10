@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class GeoObject extends Model
 {
-    /*
+    protected $fillable = ['geo_type_id','name','description'];
+
+    /**
      * Связь с геотипами
      */
     public function geoType()
@@ -14,7 +16,7 @@ class GeoObject extends Model
         return $this->belongsTo('App\GeoType');
     }
 
-    /*
+    /**
      * Связь с геометриями
      */
     public function geoFeatures()
@@ -22,7 +24,7 @@ class GeoObject extends Model
         return $this->hasMany('App\GeoFeature');
     }
 
-    /*
+    /**
      * Связь с последней геометрией
      */
     public function geoFeature()
